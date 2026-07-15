@@ -16,7 +16,7 @@ export class LoginPage {
   }
 
   private get passwordInput(): Locator {
-    return this.page.locator('input[name="password"]');
+    return this.page.getByRole('textbox').nth(1);
   }
 
   private get signInButton(): Locator {
@@ -53,5 +53,10 @@ export class LoginPage {
   async assertLoginFailed(): Promise<void> {
     await expect(this.invalidCredentialsMessage).toBeVisible();
     await expect(this.page).toHaveURL('http://63.181.141.143/login');
+  }
+
+  async assertLoggedIn(): Promise<void> {
+    await expect(this.page).not.toHaveURL('http://63.181.141.143/login');
+    await expect(this.signInButton).toHaveCount(0);
   }
 }
